@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-import random
+import random,os
 
 class Question:
     def __init__(self,content,answers):
         self.content=content
         self.answers=answers
-        random.shuffle(self.answers)
     def show(self):
         print('問：')
         print(self.content)
+        random.shuffle(self.answers)
         rest=self.answers
         correct=0
         for i in range(0,len(self.answers)):
@@ -19,6 +19,9 @@ class Question:
         x=input()
         if x.strip() != str(correct):
             print('錯！正確答案是：%d' % correct)
+            return False
+        else:
+            return True
     def __repr__(self):
         return '{Q:'+self.content+',\nA:'.join(
                                  [x for x,y in self.answers])+'}\n'
@@ -56,8 +59,7 @@ the_questions = [
 
 def do_ask(questions):
     random.shuffle(questions)
-    for i in questions:
-        i.show()
+    return [i for i in questions if not i.show()]
 
 def add_question(q):
     s=input('請輸入問題:\n')
